@@ -24,9 +24,14 @@ export class AppComponent {
   arr2:any;  
   lat1(){
 this.arr1=this.lat.split(":")[0];
-this.arr1=this.lat.split(":")[1];
+this.arr2=this.lat.split(":")[1];
 console.log(this.arr1);
 console.log(this.arr2);
+this.arr1='"'+this.arr1+'":'+this.arr2;
+this.arr2='"'+this.arr2+'"';
+console.log(this.arr1);
+console.log(this.arr2);
+
 this.body ={
   "aggs": {
      "distinct_webDomain": {
@@ -39,7 +44,7 @@ this.body ={
      "bool": {
         "must": {
            "term": {
-              "latency":"14"
+              arr1:this.arr2
            }
         }
      }

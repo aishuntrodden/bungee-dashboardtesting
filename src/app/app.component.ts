@@ -16,9 +16,48 @@ export class AppComponent {
   }
   title = 'app';
   table:any;
+  latency:any
   data:any;
   err = '';
-  
+  lat:any;
+  arr1:any;
+  arr2:any;  
+  lat1(){
+this.arr1=this.lat.split(":")[0];
+this.arr1=this.lat.split(":")[1];
+console.log(this.arr1);
+console.log(this.arr2);
+this.body ={
+  "aggs": {
+     "distinct_webDomain": {
+        "cardinality": {
+           "field": "sessionId.keyword"
+        }
+     }
+  },
+  "query": {
+     "bool": {
+        "must": {
+           "term": {
+              "latency":"14"
+           }
+        }
+     }
+  }
+};
+this.postservice.postdata(this.body,'http://search-bungee-request-data-liwdos562m3h5js5zbcipwuvxe.us-east-1.es.amazonaws.com/bungee-es-records/_search?')
+.subscribe(
+data => {
+this.data = data;
+     console.log(data);
+     this.totaldownload=(data.aggregations[1]);
+     
+}, //Bind to view
+err => {
+  this.err = JSON.parse(err._body);
+  console.log(err);
+});
+  }
   constructor(private http: Http,private getservice:GetService,private postservice:PostService)
   {
 
@@ -29,7 +68,7 @@ export class AppComponent {
       .subscribe( 
    data => {this.table = data;
         // console.log(data);
-console.log(data);
+// console.log(data);
       }, //Bind to view
       err => {
         // Log errors if any
@@ -62,9 +101,9 @@ Failures:any
     .subscribe(
  data => {
    this.data = data;
-         console.log(data);
+        //  console.log(data);
          this.uniquepagesaccessed=(data.aggregations.distinct_webDomain);
-console.log(this.uniquepagesaccessed);
+// console.log(this.uniquepagesaccessed);
     }, //Bind to view
     err => {
       this.err = JSON.parse(err._body);
@@ -85,7 +124,7 @@ console.log(this.uniquepagesaccessed);
   .subscribe(
 data => {
  this.data = data;
-       console.log(data);
+      //  console.log(data);
        this.noipused=(data.aggregations.distinct_noofipused);
        
   }, //Bind to view
@@ -125,7 +164,7 @@ this.postservice.postdata(this.body,'http://search-bungee-request-data-liwdos562
 .subscribe(
 data => {
 this.data = data;
-     console.log(data);
+    //  console.log(data);
      this.avglatency=(data.aggregations[1]);
      
 }, //Bind to view
@@ -151,7 +190,7 @@ this.postservice.postdata(this.body,'http://search-bungee-request-data-liwdos562
 .subscribe(
 data => {
 this.data = data;
-     console.log(data);
+    //  console.log(data);
      this.totaldownload=(data.aggregations[1]);
      
 }, //Bind to view
@@ -219,7 +258,7 @@ this.postservice.postdata(this.body,'http://search-bungee-request-data-liwdos562
 .subscribe(
 data => {
 this.data = data;
-     console.log(data.hits.total);
+    //  console.log(data.hits.total);
     this.Failures=(data.hits.total);
      
 }, //Bind to view

@@ -21,16 +21,17 @@ export class AppComponent {
   err = '';
   lat:any;
   arr1:any;
-  arr2:any;  
+  arr2:any;
+  final:any;  
   lat1(){
 this.arr1=this.lat.split(":")[0];
 this.arr2=this.lat.split(":")[1];
 console.log(this.arr1);
 console.log(this.arr2);
-this.arr1='"'+this.arr1+'":'+this.arr2;
-this.arr2='"'+this.arr2+'"';
+// this.arr1='{"'+this.arr1+'":"'+this.arr2+'"}';
+// this.arr2='"'+this.arr2+'"';
+this.final = '{' + this.arr1 + ':' + this.arr2 +'}';
 console.log(this.arr1);
-console.log(this.arr2);
 
 this.body ={
   "aggs": {
@@ -43,13 +44,16 @@ this.body ={
   "query": {
      "bool": {
         "must": {
-           "term": {
-              arr1:this.arr2
-           }
+           "term":{ 
+            
         }
+      }
      }
   }
 };
+this.body.query.bool.must.term[this.arr1] = this.arr2;
+
+console.log(this.body);
 this.postservice.postdata(this.body,'http://search-bungee-request-data-liwdos562m3h5js5zbcipwuvxe.us-east-1.es.amazonaws.com/bungee-es-records/_search?')
 .subscribe(
 data => {
@@ -102,6 +106,7 @@ Failures:any
             }
         }
     };
+    console.log(this.body);
     this.postservice.postdata(this.body,'http://search-bungee-request-data-liwdos562m3h5js5zbcipwuvxe.us-east-1.es.amazonaws.com/bungee-es-records/_search?')
     .subscribe(
  data => {
